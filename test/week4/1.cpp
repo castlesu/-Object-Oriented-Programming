@@ -8,4 +8,3 @@ int main() {
 	//system("pause"); // keep terminal open
 	return 0;
 }
-
