@@ -1,12 +1,6 @@
 #include <iostream>
 #include <string>
 
-enum BeverageSize {
-    TALL,
-    GRANDE,
-    VENTI,
-};
-
 class Beverage
 {
 public:
@@ -29,19 +23,19 @@ protected:
 class CondimentDecorator : public Beverage
 {
 public:
-    CondimentDecorator(Beverage* beverageReference) {
+    CondimentDecorator(Beverage* beverage) {
 
-        this->beverageWrapper = beverageReference;
+        this->_beverage = beverage;
     }
 
     std::string getDescription()
     {
-        return this->beverageWrapper->getDescription();
+        return this->_beverage->getDescription();
     }
 
     double cost()
     {
-        return this->beverageWrapper->cost();
+        return this->_beverage->cost();
     }
 
 private:
