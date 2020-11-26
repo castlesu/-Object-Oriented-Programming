@@ -15,7 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="skelton.cpp">
+    <ClCompile Include="prac1.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="prac2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="prac3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
