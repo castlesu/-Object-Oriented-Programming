@@ -167,18 +167,19 @@ tuple<int,bool> findWord(vector<string> file, string fword) {
 }
 tuple<vector<string>, bool> changeWord(vector<string> file, string ori, string want, int currentPage) {
     int chkLine = 1;
-    bool isChange;
-
+    bool isChange = false;
+    int chk = 0;
     for (int i = 0;i < file.size(); i++) {
         std::size_t found = file[i].find(ori);
 
         if (found != std::string::npos) {
             file[i] = file[i].replace(found, ori.length(), want);
-            isChange = true;
+            
+            chk += 1;
         }
-        else {
-            isChange = false;
-        }
+    }
+    if (chk != 0) {
+        isChange = true;
     }
     return tuple<vector<string>, bool>(file, isChange);
 }
