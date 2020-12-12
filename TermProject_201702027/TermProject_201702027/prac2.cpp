@@ -79,8 +79,7 @@ public:
             }
             input.erase(0, pos + delimiter.length());
         }
-        return sortfile;
-    }
+        return sortfile;    }
 
     static GlobalClass* instance()
     {
@@ -166,17 +165,22 @@ tuple<int,bool> findWord(vector<string> file, string fword) {
     }
     return tuple<int,bool>(currentPage,isFind);
 }
-vector<string> changeWord(vector<string> file, string ori, string want, int currentPage) {
+tuple<vector<string>, bool> changeWord(vector<string> file, string ori, string want, int currentPage) {
     int chkLine = 1;
+    bool isChange;
 
     for (int i = 0;i < file.size(); i++) {
         std::size_t found = file[i].find(ori);
 
         if (found != std::string::npos) {
             file[i] = file[i].replace(found, ori.length(), want);
+            isChange = true;
+        }
+        else {
+            isChange = false;
         }
     }
-    return file;
+    return tuple<vector<string>, bool>(file, isChange);
 }
 tuple<vector<string>,bool> insertWord(vector<string> file, int col, int row, string iword, int currentPage) {
     int wantrow = currentPage + col - 1;
@@ -387,13 +391,25 @@ int main() {
             else if (chkPara.compare("c") == 0) {
                 string ori = temp2[0];
                 string want = temp2[1];
-                vecOffile = changeWord(vecOffile, ori, want, currentPage);
+                bool isChange;
+                tuple<vector<string>, bool> changeResult = changeWord(vecOffile, ori, want, currentPage);
+                vecOffile = get<0>(changeResult);
+                isChange = get<1>(changeResult);
                 vecOffile = GlobalClass::instance()->SortFile(vecOffile);
                 tuple<int, bool> printResult = GlobalClass::instance()->CurrentPrint(vecOffile, currentPage - 20);
                 currentPage = get<0>(printResult);
-                cout << "-------------------------------------------------------------------------------\n" << "n:다음페이지, p:이전페이지, i:삽입, d:삭제, c:변경, s:찾기, t:저장후 종료 \n" << "-------------------------------------------------------------------------------\n";
-                cout << ori << "가 " << want << "로 변경되었습니다!" << endl;
-                cout << "-------------------------------------------------------------------------------\n" ;
+                if (isChange) {
+                    cout << "-------------------------------------------------------------------------------\n" << "n:다음페이지, p:이전페이지, i:삽입, d:삭제, c:변경, s:찾기, t:저장후 종료 \n" << "-------------------------------------------------------------------------------\n";
+                    cout << ori << "가 " << want << "로 변경되었습니다!" << endl;
+                    cout << "-------------------------------------------------------------------------------\n";
+
+                }
+                else {
+                    cout << "-------------------------------------------------------------------------------\n" << "n:다음페이지, p:이전페이지, i:삽입, d:삭제, c:변경, s:찾기, t:저장후 종료 \n" << "-------------------------------------------------------------------------------\n";
+                    cout << ori << "을(를) 못찾았습니다!" << endl;
+                    cout << "-------------------------------------------------------------------------------\n";
+
+                }
             }
             else {
                 cout << "명령어를 다시 입력해주세요!" << endl;
